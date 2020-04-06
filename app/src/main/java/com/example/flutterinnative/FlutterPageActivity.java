@@ -2,16 +2,14 @@ package com.example.flutterinnative;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
-import android.view.ViewGroup;
-import android.widget.FrameLayout;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import io.flutter.embedding.android.FlutterFragment;
-import io.flutter.embedding.android.FlutterView;
 import io.flutter.embedding.engine.FlutterEngine;
 import io.flutter.embedding.engine.FlutterEngineCache;
 import io.flutter.embedding.engine.dart.DartExecutor;
@@ -42,8 +40,6 @@ public class FlutterPageActivity extends AppCompatActivity {
 //        FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(
 //                ViewGroup.LayoutParams.MATCH_PARENT,
 //                ViewGroup.LayoutParams.MATCH_PARENT);
-////        lp.leftMargin = 100;
-////        lp.topMargin = 200;
 //        FrameLayout flContainer = findViewById(R.id.fl_container);
 //        flContainer.addView(flutterView, lp);
 //        flutterView.attachToFlutterEngine(flutterEngine);
@@ -92,7 +88,7 @@ public class FlutterPageActivity extends AppCompatActivity {
     /**
      * 创建可缓存的FlutterEngine
      *
-     * @return FlutterEngine对象
+     * @return
      */
     private FlutterEngine createFlutterEngine() {
         // 实例化FlutterEngine对象
@@ -117,7 +113,7 @@ public class FlutterPageActivity extends AppCompatActivity {
                     String message = data.getStringExtra("message");
                     Map<String, Object> result = new HashMap<>();
                     result.put("message", message);
-                    // 创建MethodChannel，这里的flutterView即Flutter.createView所返回的View
+                    // 创建MethodChannel
                     MethodChannel flutterChannel = new MethodChannel(flutterEngine.getDartExecutor(), CHANNEL_FLUTTER);
                     flutterChannel.invokeMethod("onActivityResult", result);
                 }

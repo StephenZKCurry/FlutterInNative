@@ -2,10 +2,11 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/Flutter-FlutterInNative.iml" filepath="$PROJECT_DIR$/Flutter-FlutterInNative.iml" group="FlutterInNative" />
       <module fileurl="file://$PROJECT_DIR$/FlutterInNative.iml" filepath="$PROJECT_DIR$/FlutterInNative.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../my_flutter/.android/Flutter/flutter.iml" filepath="$PROJECT_DIR$/../my_flutter/.android/Flutter/flutter.iml" />
-      <module fileurl="file://$USER_HOME$/AppData/Roaming/Pub/Cache/hosted/pub.flutter-io.cn/fluttertoast-2.2.11/android/fluttertoast.iml" filepath="$USER_HOME$/AppData/Roaming/Pub/Cache/hosted/pub.flutter-io.cn/fluttertoast-2.2.11/android/fluttertoast.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" group="FlutterInNative/app" />
+      <module fileurl="file://$PROJECT_DIR$/../my_flutter/.android/Flutter/flutter.iml" filepath="$PROJECT_DIR$/../my_flutter/.android/Flutter/flutter.iml" group="FlutterInNative/flutter" />
+      <module fileurl="file://$USER_HOME$/AppData/Roaming/Pub/Cache/hosted/pub.flutter-io.cn/fluttertoast-2.2.11/android/fluttertoast.iml" filepath="$USER_HOME$/AppData/Roaming/Pub/Cache/hosted/pub.flutter-io.cn/fluttertoast-2.2.11/android/fluttertoast.iml" group="FlutterInNative/fluttertoast" />
     </modules>
   </component>
 </project>
