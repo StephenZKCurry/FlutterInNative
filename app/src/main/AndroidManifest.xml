@@ -25,6 +25,14 @@
             android:theme="@style/FlutterPageTheme" />
         <!-- 原生页面 -->
         <activity android:name=".NativePageActivity" />
+
+        <activity
+            android:name="io.flutter.embedding.android.FlutterActivity"
+            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
+            android:hardwareAccelerated="true"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="adjustResize" />
+
     </application>
 
 </manifest>

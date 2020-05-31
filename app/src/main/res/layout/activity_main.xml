@@ -2,17 +2,45 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="15dp">
 
     <EditText
         android:id="@+id/et_name"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:hint="请输入要传递到Flutter端的参数"
+        android:textSize="16sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="方式一、通过FlutterActivity引入Flutter UI"
+        android:textSize="16sp"
+        android:textStyle="bold" />
 
     <Button
-        android:id="@+id/btn_jump_to_flutter"
+        android:id="@+id/btn_jump_to_flutter_use_activity"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="跳转Flutter页面"
+        android:textAllCaps="false" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="方式一、通过FlutterFragment/FlutterView引入Flutter UI"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/btn_jump_to_flutter_use_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:text="跳转Flutter页面"
         android:textAllCaps="false" />
 

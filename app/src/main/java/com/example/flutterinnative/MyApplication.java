@@ -1,6 +1,8 @@
 package com.example.flutterinnative;
 
+import android.app.Activity;
 import android.app.Application;
+import android.os.Bundle;
 
 import io.flutter.embedding.engine.FlutterEngine;
 import io.flutter.embedding.engine.FlutterEngineCache;
@@ -30,6 +32,43 @@ public class MyApplication extends Application {
         FlutterEngineCache
                 .getInstance()
                 .put("my_engine_id", mFlutterEngine);
+
+        registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
+            @Override
+            public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
+                ActivityManager.getInstance().activities.add(activity);
+            }
+
+            @Override
+            public void onActivityStarted(Activity activity) {
+
+            }
+
+            @Override
+            public void onActivityResumed(Activity activity) {
+
+            }
+
+            @Override
+            public void onActivityPaused(Activity activity) {
+
+            }
+
+            @Override
+            public void onActivityStopped(Activity activity) {
+
+            }
+
+            @Override
+            public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
+
+            }
+
+            @Override
+            public void onActivityDestroyed(Activity activity) {
+                ActivityManager.getInstance().activities.remove(activity);
+            }
+        });
     }
 
     public static FlutterEngine getFlutterEngine() {

@@ -2,6 +2,8 @@ package com.example.flutterinnative;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,19 +12,21 @@ import java.util.HashMap;
 import java.util.Map;
 
 import io.flutter.embedding.android.FlutterFragment;
+import io.flutter.embedding.android.FlutterView;
 import io.flutter.embedding.engine.FlutterEngine;
 import io.flutter.embedding.engine.FlutterEngineCache;
 import io.flutter.embedding.engine.dart.DartExecutor;
 import io.flutter.plugin.common.MethodChannel;
 
 /**
- * @description: Flutter页面
+ * @description: 通过 FlutterView/FlutterFragment 引入 Flutter 编写的页面
  * @author: zhukai
  * @date: 2019/5/26 14:27
  */
 public class FlutterPageActivity extends AppCompatActivity {
 
     private FlutterEngine flutterEngine;
+    private FlutterView flutterView;
 
     private static final String CHANNEL_NATIVE = "com.example.flutter/native";
     private static final String CHANNEL_FLUTTER = "com.example.flutter/flutter";
@@ -30,29 +34,23 @@ public class FlutterPageActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_flutter_page);
 
         // 创建FlutterEngine对象
         flutterEngine = createFlutterEngine();
 
         // 通过FlutterView引入Flutter编写的页面
-//        FlutterView flutterView = new FlutterView(this);
-//        FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(
-//                ViewGroup.LayoutParams.MATCH_PARENT,
+//        flutterView = new FlutterView(this);
+//        FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
 //                ViewGroup.LayoutParams.MATCH_PARENT);
 //        FrameLayout flContainer = findViewById(R.id.fl_container);
 //        flContainer.addView(flutterView, lp);
 //        flutterView.attachToFlutterEngine(flutterEngine);
 
         // 通过FlutterFragment引入Flutter编写的页面
-//        FlutterFragment flutterFragment = FlutterFragment.createDefault();
-//        FlutterFragment flutterFragment = FlutterFragment.withNewEngine()
-//                .initialRoute("route1?{\"name\":\"" + getIntent().getStringExtra("name") + "\"}")
-//                .build();
         FlutterFragment flutterFragment = FlutterFragment.withCachedEngine("my_engine_id")
                 .build();
-//        MyFlutterFragment flutterFragment = MyFlutterFragment.newInstance("route1?{\"name\":\"" + getIntent().getStringExtra("name") + "\"}",
-//                flutterEngine);
         getSupportFragmentManager()
                 .beginTransaction()
                 .add(R.id.fl_container, flutterFragment)
@@ -74,7 +72,7 @@ public class FlutterPageActivity extends AppCompatActivity {
                     break;
                 case "jumpToNative":
                     // 跳转原生页面
-                    Intent jumpToNativeIntent = new Intent(FlutterPageActivity.this, NativePageActivity.class);
+                    Intent jumpToNativeIntent = new Intent(this, NativePageActivity.class);
                     jumpToNativeIntent.putExtra("name", (String) methodCall.argument("name"));
                     startActivityForResult(jumpToNativeIntent, 0);
                     break;
@@ -107,26 +105,47 @@ public class FlutterPageActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode) {
-            case 0:
-                if (data != null) {
-                    String message = data.getStringExtra("message");
-                    Map<String, Object> result = new HashMap<>();
-                    result.put("message", message);
-                    // 创建MethodChannel
-                    MethodChannel flutterChannel = new MethodChannel(flutterEngine.getDartExecutor(), CHANNEL_FLUTTER);
-                    flutterChannel.invokeMethod("onActivityResult", result);
-                }
-                break;
-            default:
-                break;
+        if (requestCode == 0 && resultCode == RESULT_OK) {
+            if (data != null) {
+                String message = data.getStringExtra("message");
+                Map<String, Object> result = new HashMap<>();
+                result.put("message", message);
+                // 创建MethodChannel
+                MethodChannel flutterChannel = new MethodChannel(flutterEngine.getDartExecutor(), CHANNEL_FLUTTER);
+                flutterChannel.invokeMethod("onActivityResult", result);
+            }
         }
     }
 
     @Override
     public void onBackPressed() {
-//        super.onBackPressed();
         MethodChannel flutterChannel = new MethodChannel(flutterEngine.getDartExecutor(), CHANNEL_FLUTTER);
         flutterChannel.invokeMethod("goBack", null);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        flutterEngine.getLifecycleChannel().appIsResumed();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        flutterEngine.getLifecycleChannel().appIsInactive();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        flutterEngine.getLifecycleChannel().appIsPaused();
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (flutterView != null) {
+            flutterView.detachFromFlutterEngine();
+        }
+        super.onDestroy();
     }
 }
